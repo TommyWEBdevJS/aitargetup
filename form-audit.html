@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demande d’audit SEO gratuit – AiTargetUp</title>
+
+  <!-- CSS global (même DA que le site) -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- CSS spécifique formulaire -->
+  <link rel="stylesheet" href="assets/css/form.css">
+</head>
+
+<body class="page-form-audit">
+
+  <!-- Fond immersif (léger, cohérent) -->
+  <div class="form-bg" aria-hidden="true">
+    <div class="form-bg-orbs">
+      <span class="form-bg-orb orb-a"></span>
+      <span class="form-bg-orb orb-b"></span>
+      <span class="form-bg-orb orb-c"></span>
+    </div>
+    <div class="form-bg-noise"></div>
+  </div>
+
+  <main class="form-page">
+    <section class="form-megacard" aria-label="Formulaire de demande d’audit SEO">
+
+              <div class="form-hero-head">
+          <img src="assets/img/aitargetup-icon-black.png" alt="AiTargetUp" class="form-hero-logo" />
+          <div class="form-hero-titles">
+            <h1 class="form-title">Demande d’audit SEO gratuit</h1>
+            <p class="form-subtitle">
+              Répondez à quelques questions. On analyse votre visibilité et on vous
+              renvoie des recommandations concrètes.
+            </p>
+          </div>
+        </div>
+
+      <!-- Form (pas encore branché à un endpoint : on branche plus tard) -->
+      <form
+        class="audit-form"
+        id="audit-form"
+        action="https://formspree.io/f/mjknzewr"
+        method="POST"
+        novalidate
+      >
+
+        <!-- ÉTAPE 1 -->
+        <div class="form-step" data-step="1">
+          <div class="form-section">
+            <h2 class="form-section-title">Vos informations</h2>
+
+            <div class="form-grid">
+              <label class="form-field">
+                <span class="form-label">Prénom</span>
+                <input type="text" name="prenom" autocomplete="given-name" required />
+              </label>
+
+              <label class="form-field">
+                <span class="form-label">Nom</span>
+                <input type="text" name="nom" autocomplete="family-name" required />
+              </label>
+
+              <label class="form-field form-field-full">
+                <span class="form-label">Email</span>
+                <input type="email" name="email" autocomplete="email" required />
+              </label>
+
+              <label class="form-field">
+                <span class="form-label">Téléphone (optionnel)</span>
+                <input type="tel" name="telephone" autocomplete="tel" />
+              </label>
+
+              <label class="form-field">
+                <span class="form-label">Ville / Code postal</span>
+                <input type="text" name="ville" autocomplete="address-level2" />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h2 class="form-section-title">Votre activité</h2>
+
+            <div class="form-grid">
+              <label class="form-field">
+                <span class="form-label">Nom de l’entreprise</span>
+                <input type="text" name="entreprise" />
+              </label>
+
+              <label class="form-field">
+                <span class="form-label">Activité principale</span>
+                <input type="text" name="activite" />
+              </label>
+
+              <label class="form-field form-field-full">
+                <span class="form-label">Zone d’intervention</span>
+                <input type="text" name="zone" />
+              </label>
+
+              <label class="form-field form-field-full">
+                <span class="form-label">Site internet (si existant)</span>
+                <input type="url" name="site" placeholder="https://" />
+              </label>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <div class="form-actions-left">
+              <span class="form-progress">Étape 1 / 2</span>
+            </div>
+            <div class="form-actions-right">
+              <button type="button" class="btn-primary" data-step-next>
+                Suivant
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ÉTAPE 2 -->
+        <div class="form-step" data-step="2" hidden>
+          <div class="form-section">
+            <h2 class="form-section-title">Vos objectifs</h2>
+
+            <label class="form-field form-field-full">
+              <span class="form-label">Objectif principal</span>
+              <textarea name="objectifs" rows="4" placeholder="Plus de visibilité, plus de demandes, meilleure conversion…"></textarea>
+            </label>
+          </div>
+
+          <div class="form-section">
+            <h2 class="form-section-title">Informations complémentaires</h2>
+
+            <label class="form-field form-field-full">
+              <span class="form-label">Concurrents, mots-clés, contexte</span>
+              <textarea name="details" rows="4" placeholder="Concurrents locaux, services prioritaires, mots-clés visés…"></textarea>
+            </label>
+          </div>
+
+          <div class="form-section">
+            <label class="form-consent">
+              <input type="checkbox" name="consent" required />
+              <span>J’accepte d’être recontacté au sujet de ma demande d’audit.</span>
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <div class="form-actions-left">
+              <button type="button" class="btn-secondary" data-step-prev>
+                Retour
+              </button>
+              <span class="form-progress">Étape 2 / 2</span>
+            </div>
+            <div class="form-actions-right">
+              <button type="submit" class="btn-primary">
+                Envoyer
+              </button>
+            </div>
+          </div>
+
+          <p class="form-note">Audit gratuit, sans engagement.</p>
+        </div>
+
+        <input type="hidden" name="_subject" value="Nouvelle demande d’audit SEO – AiTargetUp" />
+        <input type="hidden" name="_language" value="fr" />
+        <input type="hidden" name="_gotcha" style="display:none" />
+      </form>
+
+      <!-- Popup de confirmation -->
+      <div class="form-success" id="form-success" hidden>
+        <div class="form-success-card">
+          <img src="assets/img/aitargetup-icon-black.png" alt="AiTargetUp" class="form-success-logo" />
+          <h2 class="form-success-title">Demande envoyée avec succès</h2>
+          <p class="form-success-text">
+            Merci pour votre demande.<br />
+            Un de nos conseillers prendra contact avec vous dans les plus brefs délais.
+          </p>
+          <button class="btn-primary" id="form-success-close">Retour au site</button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="assets/js/form.js"></script>
+</body>
+</html>
