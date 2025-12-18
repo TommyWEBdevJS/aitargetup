@@ -278,22 +278,27 @@ document.addEventListener("DOMContentLoaded", function () {
   const burger = $(".burger");
   const headerNav = $(".header-nav");
 
+  // Ensure nav has an id for aria-controls
+  if (headerNav && !headerNav.id) headerNav.id = "siteNav";
+
   const openNav = () => {
     if (!headerNav) return;
     headerNav.classList.add("is-open");
+    burger?.classList.add("is-open");
     burger?.setAttribute("aria-expanded", "true");
   };
 
   const closeNav = () => {
     if (!headerNav) return;
     headerNav.classList.remove("is-open");
+    burger?.classList.remove("is-open");
     burger?.setAttribute("aria-expanded", "false");
   };
 
   if (burger && headerNav) {
     // a11y
     burger.setAttribute("aria-expanded", "false");
-    burger.setAttribute("aria-controls", headerNav.id || "");
+    burger.setAttribute("aria-controls", headerNav.id);
 
     burger.addEventListener("click", (e) => {
       e.preventDefault();
