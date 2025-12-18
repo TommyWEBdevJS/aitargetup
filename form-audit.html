@@ -16,7 +16,7 @@
           <img class="form-head__logo" src="assets/img/aitargetup-icon-black.png" alt="AiTargetUp" width="56" height="56" />
           <div class="form-head__titles">
             <h1 class="h1">Demande d’audit SEO gratuit</h1>
-            <p class="lead">2 étapes, 2 minutes. On vous recontacte rapidement avec des recommandations concrètes.</p>
+            <p class="lead">Aidez-nous à comprendre votre situation pour un audit personnalisé.</p>
           </div>
         </div>
       </header>
@@ -31,7 +31,7 @@
 
         <!-- STEP 1 -->
         <section class="form-step" data-form-step data-step="1">
-          <h2 class="form-section-title">Étape 1 / 2 — Vos informations</h2>
+          <h2 class="form-section-title">📋 Vos informations</h2>
 
           <div class="form-grid">
             <label class="form-field">
@@ -50,19 +50,112 @@
             </label>
 
             <label class="form-field">
-              <span class="form-label">Téléphone (optionnel)</span>
+              <span class="form-label">Téléphone</span>
               <input type="tel" name="telephone" autocomplete="tel" />
             </label>
 
             <label class="form-field">
-              <span class="form-label">Ville / Département</span>
-              <input type="text" name="ville" placeholder="Ex : Bordeaux / 33" />
+              <span class="form-label">Ville / Code postal</span>
+              <input type="text" name="ville_code_postal" placeholder="Ex : Bordeaux / 33" />
+              <small>(Nous en avons besoin pour analyser votre visibilité locale)</small>
+            </label>
+          </div>
+
+          <h2 class="form-section-title">🏢 Votre activité</h2>
+
+          <div class="form-grid">
+            <label class="form-field form-field-full">
+              <span class="form-label">Quelle est votre activité principale ? *</span>
+              <input type="text" name="activite_principale" placeholder="Ex : Plombier, Boulangerie, Coach sportif, Entreprise de rénovation..." required />
             </label>
 
             <label class="form-field form-field-full">
-              <span class="form-label">Site internet (si existant)</span>
-              <input type="url" name="site" placeholder="https://" />
+              <span class="form-label">Nom de votre entreprise *</span>
+              <input type="text" name="nom_entreprise" required />
             </label>
+
+            <fieldset class="form-field form-field-full">
+              <legend class="form-label">Depuis combien de temps exercez-vous ? *</legend>
+              <div class="form-options">
+                <label class="form-option"><input type="radio" name="anciennete" value="Moins de 1 an" required /> <span>Moins de 1 an</span></label>
+                <label class="form-option"><input type="radio" name="anciennete" value="1 à 3 ans" /> <span>1 à 3 ans</span></label>
+                <label class="form-option"><input type="radio" name="anciennete" value="3 à 5 ans" /> <span>3 à 5 ans</span></label>
+                <label class="form-option"><input type="radio" name="anciennete" value="5 à 10 ans" /> <span>5 à 10 ans</span></label>
+                <label class="form-option"><input type="radio" name="anciennete" value="Plus de 10 ans" /> <span>Plus de 10 ans</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-field form-field-full">
+              <legend class="form-label">Quelle est votre zone d'intervention ? *</legend>
+              <div class="form-options">
+                <label class="form-option"><input type="radio" name="zone_intervention" value="Une seule ville" required /> <span>Une seule ville</span></label>
+                <label class="form-option"><input type="radio" name="zone_intervention" value="Plusieurs villes proches" /> <span>Plusieurs villes proches</span></label>
+                <label class="form-option"><input type="radio" name="zone_intervention" value="Département entier" /> <span>Département entier</span></label>
+                <label class="form-option"><input type="radio" name="zone_intervention" value="Région" /> <span>Région</span></label>
+                <label class="form-option"><input type="radio" name="zone_intervention" value="National" /> <span>National</span></label>
+              </div>
+            </fieldset>
+
+            <label class="form-field form-field-full">
+              <span class="form-label">Précisez votre zone géographique</span>
+              <input type="text" name="zone_geographique_precision" placeholder="Ex : Lyon et proche banlieue, Tout le département du Rhône..." />
+            </label>
+          </div>
+
+          <h2 class="form-section-title">🌐 Votre présence en ligne actuelle</h2>
+
+          <div class="form-grid">
+            <fieldset class="form-field form-field-full">
+              <legend class="form-label">Avez-vous un site internet ? *</legend>
+              <div class="form-options">
+                <label class="form-option"><input type="radio" name="site_internet_statut" value="Oui, et il est actif" required /> <span>Oui, et il est actif</span></label>
+                <label class="form-option"><input type="radio" name="site_internet_statut" value="Oui, mais il est ancien/non mis à jour" /> <span>Oui, mais il est ancien/non mis à jour</span></label>
+                <label class="form-option"><input type="radio" name="site_internet_statut" value="Non, pas encore" /> <span>Non, pas encore</span></label>
+                <label class="form-option"><input type="radio" name="site_internet_statut" value="Je ne sais pas" /> <span>Je ne sais pas</span></label>
+              </div>
+            </fieldset>
+
+            <label class="form-field form-field-full">
+              <span class="form-label">Si oui, quelle est l'adresse de votre site ?</span>
+              <input type="url" name="site_internet_url" placeholder="https://" />
+            </label>
+
+            <fieldset class="form-field form-field-full">
+              <legend class="form-label">Avez-vous une fiche Google My Business (Google Maps) ? *</legend>
+              <div class="form-options">
+                <label class="form-option"><input type="radio" name="gmb_statut" value="Oui, et elle est optimisée" required /> <span>Oui, et elle est optimisée</span></label>
+                <label class="form-option"><input type="radio" name="gmb_statut" value="Oui, mais je ne l'ai jamais vraiment gérée" /> <span>Oui, mais je ne l'ai jamais vraiment gérée</span></label>
+                <label class="form-option"><input type="radio" name="gmb_statut" value="Non, je n'en ai pas" /> <span>Non, je n'en ai pas</span></label>
+                <label class="form-option"><input type="radio" name="gmb_statut" value="Je ne sais pas ce que c'est" /> <span>Je ne sais pas ce que c'est</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-field form-field-full">
+              <legend class="form-label">Combien d'avis Google avez-vous actuellement ? *</legend>
+              <div class="form-options">
+                <label class="form-option"><input type="radio" name="avis_google" value="0 avis" required /> <span>0 avis</span></label>
+                <label class="form-option"><input type="radio" name="avis_google" value="1 à 5 avis" /> <span>1 à 5 avis</span></label>
+                <label class="form-option"><input type="radio" name="avis_google" value="5 à 15 avis" /> <span>5 à 15 avis</span></label>
+                <label class="form-option"><input type="radio" name="avis_google" value="15 à 30 avis" /> <span>15 à 30 avis</span></label>
+                <label class="form-option"><input type="radio" name="avis_google" value="Plus de 30 avis" /> <span>Plus de 30 avis</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-field form-field-full">
+              <legend class="form-label">Êtes-vous présent sur les réseaux sociaux ?</legend>
+              <div class="form-options">
+                <label class="form-option"><input type="checkbox" name="reseaux_sociaux[]" value="Facebook" /> <span>Facebook</span></label>
+                <label class="form-option"><input type="checkbox" name="reseaux_sociaux[]" value="Instagram" /> <span>Instagram</span></label>
+                <label class="form-option"><input type="checkbox" name="reseaux_sociaux[]" value="LinkedIn" /> <span>LinkedIn</span></label>
+                <label class="form-option"><input type="checkbox" name="reseaux_sociaux[]" value="TikTok" /> <span>TikTok</span></label>
+                <label class="form-option form-option--inline">
+                  <input type="checkbox" name="reseaux_sociaux[]" value="Autre" />
+                  <span>Autre :</span>
+                  <input type="text" name="reseaux_sociaux_autre" class="form-inline-input" placeholder="Précisez" />
+                </label>
+                <label class="form-option"><input type="checkbox" name="reseaux_sociaux[]" value="Non, pas du tout" /> <span>Non, pas du tout</span></label>
+              </div>
+            </fieldset>
           </div>
 
           <div class="form-actions">
@@ -73,29 +166,146 @@
 
         <!-- STEP 2 -->
         <section class="form-step" data-form-step data-step="2" hidden>
-          <h2 class="form-section-title">Étape 2 / 2 — Vos objectifs</h2>
+          <h2 class="form-section-title">🎯 Vos objectifs</h2>
+
+          <fieldset class="form-field form-field-full">
+            <legend class="form-label">Quel est votre principal objectif ? *</legend>
+            <div class="form-options">
+              <label class="form-option"><input type="radio" name="objectif_principal" value="Être trouvé facilement sur Google localement" required /> <span>Être trouvé facilement sur Google localement</span></label>
+              <label class="form-option"><input type="radio" name="objectif_principal" value="Augmenter le nombre d'appels/demandes de devis" /> <span>Augmenter le nombre d'appels/demandes de devis</span></label>
+              <label class="form-option"><input type="radio" name="objectif_principal" value="Avoir plus d'avis clients positifs" /> <span>Avoir plus d'avis clients positifs</span></label>
+              <label class="form-option"><input type="radio" name="objectif_principal" value="Dépasser mes concurrents sur Google" /> <span>Dépasser mes concurrents sur Google</span></label>
+              <label class="form-option"><input type="radio" name="objectif_principal" value="Développer ma visibilité en ligne globalement" /> <span>Développer ma visibilité en ligne globalement</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-field form-field-full">
+            <legend class="form-label">Comment vos clients vous trouvent actuellement ? *</legend>
+            <p class="form-help">(Vous pouvez cocher plusieurs cases)</p>
+            <div class="form-options">
+              <label class="form-option"><input type="checkbox" name="acquisition[]" value="Bouche-à-oreille / Recommandations" required /> <span>Bouche-à-oreille / Recommandations</span></label>
+              <label class="form-option"><input type="checkbox" name="acquisition[]" value="Google / Recherche en ligne" /> <span>Google / Recherche en ligne</span></label>
+              <label class="form-option"><input type="checkbox" name="acquisition[]" value="Réseaux sociaux" /> <span>Réseaux sociaux</span></label>
+              <label class="form-option"><input type="checkbox" name="acquisition[]" value="Flyers / Publicités locales" /> <span>Flyers / Publicités locales</span></label>
+              <label class="form-option"><input type="checkbox" name="acquisition[]" value="Pages Jaunes / Annuaires" /> <span>Pages Jaunes / Annuaires</span></label>
+              <label class="form-option"><input type="checkbox" name="acquisition[]" value="Je ne sais pas vraiment" /> <span>Je ne sais pas vraiment</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-field form-field-full">
+            <legend class="form-label">Combien de demandes clients recevez-vous par mois via internet ? *</legend>
+            <div class="form-options">
+              <label class="form-option"><input type="radio" name="demandes_internet_mois" value="0 à 2" required /> <span>0 à 2</span></label>
+              <label class="form-option"><input type="radio" name="demandes_internet_mois" value="3 à 5" /> <span>3 à 5</span></label>
+              <label class="form-option"><input type="radio" name="demandes_internet_mois" value="5 à 10" /> <span>5 à 10</span></label>
+              <label class="form-option"><input type="radio" name="demandes_internet_mois" value="Plus de 10" /> <span>Plus de 10</span></label>
+              <label class="form-option"><input type="radio" name="demandes_internet_mois" value="Je ne sais pas encore" /> <span>Je ne sais pas encore</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-field form-field-full">
+            <legend class="form-label">Qu'est-ce qui est le plus important pour vous ? *</legend>
+            <p class="form-help">(Classez par ordre de priorité : 1 = le plus important)</p>
+            <div class="form-grid">
+              <label class="form-field">
+                <span class="form-label">Résultats rapides</span>
+                <input type="number" name="priorite_resultats_rapides" min="1" max="5" placeholder="1-5" required />
+              </label>
+              <label class="form-field">
+                <span class="form-label">Prix abordable</span>
+                <input type="number" name="priorite_prix" min="1" max="5" placeholder="1-5" required />
+              </label>
+              <label class="form-field">
+                <span class="form-label">Accompagnement personnalisé</span>
+                <input type="number" name="priorite_accompagnement" min="1" max="5" placeholder="1-5" required />
+              </label>
+              <label class="form-field">
+                <span class="form-label">Transparence et clarté</span>
+                <input type="number" name="priorite_transparence" min="1" max="5" placeholder="1-5" required />
+              </label>
+              <label class="form-field">
+                <span class="form-label">Aucun engagement contractuel</span>
+                <input type="number" name="priorite_sans_engagement" min="1" max="5" placeholder="1-5" required />
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-field form-field-full">
+            <legend class="form-label">Quel délai vous donnez-vous pour voir des résultats ? *</legend>
+            <div class="form-options">
+              <label class="form-option"><input type="radio" name="delai_resultats" value="1 mois" required /> <span>1 mois</span></label>
+              <label class="form-option"><input type="radio" name="delai_resultats" value="3 mois" /> <span>3 mois</span></label>
+              <label class="form-option"><input type="radio" name="delai_resultats" value="6 mois" /> <span>6 mois</span></label>
+              <label class="form-option"><input type="radio" name="delai_resultats" value="1 an" /> <span>1 an</span></label>
+              <label class="form-option"><input type="radio" name="delai_resultats" value="Je suis patient, je veux du durable" /> <span>Je suis patient, je veux du durable</span></label>
+            </div>
+          </fieldset>
+
+          <h2 class="form-section-title">📝 Vos questions et besoins spécifiques</h2>
+
+          <fieldset class="form-field form-field-full">
+            <legend class="form-label">Avez-vous des concurrents qui vous gênent particulièrement sur Google ? *</legend>
+            <div class="form-options">
+              <label class="form-option"><input type="radio" name="concurrents_gene" value="Oui" required /> <span>Oui</span></label>
+              <label class="form-option"><input type="radio" name="concurrents_gene" value="Non" /> <span>Non</span></label>
+              <label class="form-option"><input type="radio" name="concurrents_gene" value="Je ne sais pas" /> <span>Je ne sais pas</span></label>
+            </div>
+          </fieldset>
 
           <label class="form-field form-field-full">
-            <span class="form-label">Objectif principal *</span>
-            <textarea name="objectifs" rows="4" required></textarea>
+            <span class="form-label">Si oui, pouvez-vous nous donner un ou deux noms / sites web ?</span>
+            <textarea name="concurrents_noms" rows="3"></textarea>
           </label>
 
           <label class="form-field form-field-full">
-            <span class="form-label">Concurrents / infos utiles (optionnel)</span>
-            <textarea name="details" rows="4"></textarea>
+            <span class="form-label">Y a-t-il des mots-clés spécifiques sur lesquels vous aimeriez être visible ?</span>
+            <textarea name="mots_cles" rows="3" placeholder="Exemple : &quot;plombier d'urgence Lyon&quot;, &quot;boulangerie bio Bordeaux&quot;..."></textarea>
+          </label>
+
+          <label class="form-field form-field-full">
+            <span class="form-label">Avez-vous des questions ou des préoccupations particulières ?</span>
+            <textarea name="questions_preoccupations" rows="4"></textarea>
+          </label>
+
+          <h2 class="form-section-title">✅ Validation</h2>
+
+          <fieldset class="form-field form-field-full">
+            <legend class="form-label">Comment avez-vous connu AiTargetUp ? *</legend>
+            <div class="form-options">
+              <label class="form-option"><input type="radio" name="source" value="Google / Recherche en ligne" required /> <span>Google / Recherche en ligne</span></label>
+              <label class="form-option"><input type="radio" name="source" value="Réseaux sociaux" /> <span>Réseaux sociaux</span></label>
+              <label class="form-option"><input type="radio" name="source" value="Recommandation d'un proche" /> <span>Recommandation d'un proche</span></label>
+              <label class="form-option"><input type="radio" name="source" value="Article de blog / Newsletter" /> <span>Article de blog / Newsletter</span></label>
+              <label class="form-option"><input type="radio" name="source" value="Publicité" /> <span>Publicité</span></label>
+              <label class="form-option form-option--inline">
+                <input type="radio" name="source" value="Autre" />
+                <span>Autre :</span>
+                <input type="text" name="source_autre" class="form-inline-input" placeholder="Précisez" />
+              </label>
+            </div>
+          </fieldset>
+
+          <label class="form-field form-field-full">
+            <span class="form-label">Qu'attendez-vous de cet audit gratuit ? *</span>
+            <textarea name="attentes_audit" rows="3" required></textarea>
           </label>
 
           <label class="form-consent">
-            <input type="checkbox" name="consent" required />
-            <span>J’accepte d’être recontacté au sujet de ma demande d’audit.</span>
+            <input type="checkbox" name="audit_par_email_48h" required />
+            <span>J'accepte de recevoir mon audit SEO gratuit par email sous 48h</span>
+          </label>
+
+          <label class="form-consent">
+            <input type="checkbox" name="conseils_offres" />
+            <span>J'accepte de recevoir des conseils SEO et des offres personnalisées de la part d'AiTargetUp (optionnel)</span>
           </label>
 
           <div class="form-actions">
             <button type="button" class="btn-secondary" data-step-prev>Retour</button>
-            <button type="submit" class="btn-primary">Envoyer</button>
+            <button type="submit" class="btn-primary">Envoyer ma demande d'audit gratuit</button>
           </div>
 
-          <p class="form-note">Audit gratuit, sans engagement.</p>
+          <p class="form-note">🔒 Vos données sont protégées — audit gratuit livré sous 48h, sans engagement.</p>
         </section>
 
         <input type="hidden" name="_subject" value="Nouvelle demande d’audit SEO — AiTargetUp" />
@@ -112,7 +322,7 @@
           <p class="form-success-text">
             Votre demande a bien été envoyée. Un de nos conseillers prendra contact avec vous dans les plus brefs délais.
           </p>
-          <button type="button" class="btn-primary" data-success-close>Retour au site</button>
+          <button type="button" id="successClose" class="btn-primary" data-success-close>Retour au site</button>
         </div>
       </div>
 

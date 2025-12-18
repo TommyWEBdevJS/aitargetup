@@ -156,18 +156,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ---------------------------
   // FAQ (accordéon)
+  // Supporte .faq-question-btn + .faq-answer (structure actuelle)
+  // + fallback data-attrs si besoin
   // ---------------------------
   document.addEventListener("click", (e) => {
-    const btn = e.target.closest(".faq-question-btn");
+    const btn = e.target.closest(
+      ".faq-question-btn, [data-faq-toggle], .faq-toggle, .faq-question, .faq-item__question"
+    );
     if (!btn) return;
 
-    e.preventDefault();
-
-    const item = btn.closest(".faq-item");
+    const item = btn.closest(".faq-item, [data-faq-item]");
     if (!item) return;
 
-    const answer = item.querySelector(".faq-answer");
+    const answer =
+      item.querySelector(".faq-answer") ||
+      item.querySelector(".faq-content") ||
+      item.querySelector("[data-faq-content]");
     if (!answer) return;
+
+    e.preventDefault();
 
     const expanded = btn.getAttribute("aria-expanded") === "true";
     const open = !expanded;
@@ -175,21 +182,33 @@ document.addEventListener("DOMContentLoaded", function () {
     // Accordéon: ferme les autres items du même wrapper
     const wrapper = item.parentElement;
     if (wrapper) {
-      wrapper.querySelectorAll('.faq-item').forEach((it) => {
+      wrapper.querySelectorAll(".faq-item, [data-faq-item]").forEach((it) => {
         if (it === item) return;
-        const b = it.querySelector('.faq-question-btn');
-        const a = it.querySelector('.faq-answer');
-        const i = it.querySelector('.faq-question-icon');
+        const b =
+          it.querySelector(".faq-question-btn") ||
+          it.querySelector("[data-faq-toggle]") ||
+          it.querySelector(".faq-toggle") ||
+          it.querySelector(".faq-question") ||
+          it.querySelector(".faq-item__question");
+        const a =
+          it.querySelector(".faq-answer") ||
+          it.querySelector(".faq-content") ||
+          it.querySelector("[data-faq-content]");
+        const i = it.querySelector(".faq-question-icon, .faq-icon, .faq-plusminus, [data-faq-icon]");
+
         if (b) setExpanded(b, false);
         if (a) {
           a.classList.remove("is-open");
           hidePanelAfter(a);
         }
-        if (i) i.textContent = '+';
+        if (i && i.textContent && i.textContent.trim().length <= 2) i.textContent = "+";
+        it.classList.remove("is-open");
       });
     }
 
+    // Toggle item courant
     setExpanded(btn, open);
+    item.classList.toggle("is-open", open);
 
     if (open) {
       showPanel(answer);
@@ -199,18 +218,36 @@ document.addEventListener("DOMContentLoaded", function () {
       hidePanelAfter(answer);
     }
 
-    const icon = btn.querySelector(".faq-question-icon");
-    if (icon) icon.textContent = open ? "−" : "+";
+    const icon =
+      btn.querySelector(".faq-question-icon") ||
+      btn.querySelector(".faq-icon") ||
+      btn.querySelector(".faq-plusminus") ||
+      btn.querySelector("[data-faq-icon]");
+    if (icon && icon.textContent && icon.textContent.trim().length <= 2) {
+      icon.textContent = open ? "−" : "+";
+    }
   });
 
-  // Init : FAQ fermée par défaut
-  $$(".faq-item").forEach((item) => {
-    const btn = item.querySelector(".faq-question-btn");
-    const ans = item.querySelector(".faq-answer");
+  // Init : FAQ fermée par défaut (mais respecte aria-expanded="true" si présent)
+  $$(".faq-item, [data-faq-item]").forEach((item) => {
+    const btn =
+      item.querySelector(".faq-question-btn") ||
+      item.querySelector("[data-faq-toggle]") ||
+      item.querySelector(".faq-toggle") ||
+      item.querySelector(".faq-question") ||
+      item.querySelector(".faq-item__question");
+
+    const ans =
+      item.querySelector(".faq-answer") ||
+      item.querySelector(".faq-content") ||
+      item.querySelector("[data-faq-content]");
+
     if (!btn || !ans) return;
 
     if (!btn.hasAttribute("aria-expanded")) setExpanded(btn, false);
     const expanded = btn.getAttribute("aria-expanded") === "true";
+
+    item.classList.toggle("is-open", expanded);
 
     if (expanded) {
       showPanel(ans);
@@ -220,8 +257,14 @@ document.addEventListener("DOMContentLoaded", function () {
       hidePanel(ans);
     }
 
-    const icon = btn.querySelector(".faq-question-icon");
-    if (icon) icon.textContent = expanded ? "−" : "+";
+    const icon =
+      btn.querySelector(".faq-question-icon") ||
+      btn.querySelector(".faq-icon") ||
+      btn.querySelector(".faq-plusminus") ||
+      btn.querySelector("[data-faq-icon]");
+    if (icon && icon.textContent && icon.textContent.trim().length <= 2) {
+      icon.textContent = expanded ? "−" : "+";
+    }
   });
 })();
 
