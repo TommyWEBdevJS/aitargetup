@@ -2280,6 +2280,23 @@ body.is-success-open {
     grid-template-rows: auto;
     row-gap: 0;
   }
+  /* Force-hide CTA/phone on mobile */
+.header-phone,
+.header-cta {
+  display: none !important;
+}
+
+/* Keep burger at far right */
+.header-right {
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  width: 100%;
+}
+
+.burger {
+  margin-left: auto;
+}
 
 .header-nav {
     justify-content: center;
