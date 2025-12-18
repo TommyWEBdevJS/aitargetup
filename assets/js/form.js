@@ -1,127 +1,154 @@
-// assets/js/form.js
-// ===================================================
-// AiTargetUp — Form Audit (step 1 / step 2)
-// Runs ONLY on form-audit.html (body.page-form-audit)
-// Robust version: DOMContentLoaded + event delegation
-// ===================================================
+/* AiTargetUp – form.js (audit form) */
 
-(() => {
-  const isFormPage = document.body && document.body.classList.contains("page-form-audit");
-  if (!isFormPage) return; // sécurité: ne casse jamais index.html
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("audit-form");
+  if (!form) return;
 
-  function init() {
-    const form = document.querySelector("#audit-form");
-    const steps = Array.from(document.querySelectorAll(".form-step"));
-    const btnClose = document.querySelector("[data-audit-close]");
+  const steps = Array.from(document.querySelectorAll("[data-form-step]"));
+  const indicators = Array.from(document.querySelectorAll("[data-step-indicator]"));
+  const nextBtn = document.querySelector("[data-step-next]");
+  const prevBtn = document.querySelector("[data-step-prev]");
 
-    if (!form) {
-      console.warn("[form.js] #audit-form introuvable");
-      return;
+  const errorBox = document.getElementById("form-error");
+  const successModal = document.getElementById("form-success");
+  const successClose = document.querySelector("[data-success-close]");
+
+  const showError = (msg, focusEl) => {
+    if (!errorBox) return;
+    errorBox.textContent = msg;
+    errorBox.hidden = false;
+    if (focusEl && typeof focusEl.focus === "function") focusEl.focus();
+  };
+
+  const clearError = () => {
+    if (!errorBox) return;
+    errorBox.textContent = "";
+    errorBox.hidden = true;
+  };
+
+  const setStep = (n) => {
+    steps.forEach((el) => {
+      const isCurrent = String(el.getAttribute("data-step")) === String(n);
+      el.hidden = !isCurrent;
+    });
+    indicators.forEach((dot, i) => {
+      dot.classList.toggle("is-active", i === Number(n) - 1);
+    });
+  };
+
+  const goHome = () => {
+    const url = "index.html";
+    // If this form page is rendered inside an iframe (popup), redirect the TOP window.
+    if (window.top && window.top !== window) {
+      window.top.location.href = url;
+    } else {
+      window.location.href = url;
     }
-    if (steps.length === 0) {
-      console.warn("[form.js] .form-step introuvable");
-      return;
-    }
+  };
 
-    function showStep(stepNumber) {
-      steps.forEach((stepEl) => {
-        const n = parseInt(stepEl.getAttribute("data-step"), 10);
-        const isActive = n === stepNumber;
+  const openModal = () => {
+    if (!successModal) return;
+    successModal.hidden = false;
+    successModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+    if (successClose) successClose.focus();
+  };
 
-        if (isActive) {
-          stepEl.removeAttribute("hidden");
-          stepEl.setAttribute("aria-hidden", "false");
-        } else {
-          stepEl.setAttribute("hidden", "");
-          stepEl.setAttribute("aria-hidden", "true");
+  const closeModal = (redirect = false) => {
+    if (!successModal) return;
+    successModal.hidden = true;
+    successModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+    if (redirect) goHome();
+  };
+
+  // Step 1 -> Step 2
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      clearError();
+      const step1 = document.querySelector('[data-form-step][data-step="1"]');
+      const required = step1
+        ? Array.from(step1.querySelectorAll("input[required], textarea[required], select[required]"))
+        : [];
+      for (const field of required) {
+        if (!field.checkValidity()) {
+          showError("Veuillez compléter les champs obligatoires avant de continuer.", field);
+          return;
         }
-      });
-    }
-
-    function getCurrentStep() {
-      const visible = steps.find((s) => !s.hasAttribute("hidden"));
-      if (!visible) return 1;
-      const n = parseInt(visible.getAttribute("data-step"), 10);
-      return Number.isFinite(n) ? n : 1;
-    }
-
-    function validateStep(stepNumber) {
-      const stepEl = steps.find((s) => parseInt(s.getAttribute("data-step"), 10) === stepNumber);
-      if (!stepEl) return true;
-
-      const requiredFields = Array.from(
-        stepEl.querySelectorAll("input[required], textarea[required], select[required]")
+      }
+      setStep(2);
+      const firstField = document.querySelector(
+        '[data-form-step][data-step="2"] textarea, [data-form-step][data-step="2"] input'
       );
-
-      let ok = true;
-
-      requiredFields.forEach((field) => {
-        const isValid = field.checkValidity();
-        field.classList.toggle("is-invalid", !isValid);
-        if (!isValid) ok = false;
-      });
-
-      if (!ok) {
-        const firstInvalid = requiredFields.find((f) => !f.checkValidity());
-        if (firstInvalid) firstInvalid.reportValidity();
-      }
-
-      return ok;
-    }
-
-    function closeForm() {
-      if (window.history.length > 1) window.history.back();
-      else window.location.href = "index.html";
-    }
-
-    // Force init state: show step 1, hide others
-    showStep(1);
-
-    // Event delegation: works even if buttons are re-rendered
-    form.addEventListener("click", (e) => {
-      const nextBtn = e.target.closest("[data-step-next]");
-      if (nextBtn) {
-        e.preventDefault();
-        const step = getCurrentStep();
-        if (!validateStep(step)) return;
-        showStep(2);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        return;
-      }
-
-      const prevBtn = e.target.closest("[data-step-prev]");
-      if (prevBtn) {
-        e.preventDefault();
-        showStep(1);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        return;
-      }
-    });
-
-    if (btnClose) {
-      btnClose.addEventListener("click", (e) => {
-        e.preventDefault();
-        closeForm();
-      });
-    }
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeForm();
-    });
-
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      // Valide l’étape 2 avant de “simuler” l’envoi
-      if (!validateStep(2)) return;
-
-      alert("✅ Demande envoyée (mode démo). On branche l’email juste après.");
-      closeForm();
+      if (firstField) firstField.focus();
     });
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
+  // Step 2 -> Step 1
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+      clearError();
+      setStep(1);
+    });
   }
-})();
+
+  // Close modal
+  if (successClose) successClose.addEventListener("click", () => closeModal(true));
+
+  // Backdrop click
+  if (successModal) {
+    successModal.addEventListener("click", (e) => {
+      if (e.target && e.target.classList && e.target.classList.contains("form-success-backdrop")) {
+        closeModal(true);
+      }
+    });
+  }
+
+  // ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && successModal && !successModal.hidden) closeModal(true);
+  });
+
+  // Submit (AJAX)
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    clearError();
+
+    const step2 = document.querySelector('[data-form-step][data-step="2"]');
+    const required2 = step2
+      ? Array.from(step2.querySelectorAll("input[required], textarea[required], select[required]"))
+      : [];
+    for (const field of required2) {
+      if (!field.checkValidity()) {
+        showError("Veuillez compléter les champs obligatoires avant d'envoyer.", field);
+        return;
+      }
+    }
+
+    try {
+      const res = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" },
+      });
+
+      if (!res.ok) {
+        let msg = "Une erreur est survenue. Réessayez dans quelques instants.";
+        try {
+          const data = await res.json();
+          if (data?.errors?.length) msg = data.errors.map((x) => x.message).join(" ");
+        } catch {}
+        showError(msg);
+        return;
+      }
+
+      form.reset();
+      setStep(1);
+      openModal();
+    } catch {
+      showError("Connexion impossible. Vérifiez votre réseau puis réessayez.");
+    }
+  });
+
+  setStep(1);
+});

@@ -1,6 +1,13 @@
 // Page helpers
 const __isFormAudit = document.body && document.body.classList.contains('page-form-audit');
-// ===== Carrousel Témoignages =====
+
+// Small DOM helpers
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+// =============================
+// Carrousel Témoignages
+// =============================
 document.addEventListener("DOMContentLoaded", function () {
   const track = document.querySelector(".temoignages-track");
   const slides = document.querySelectorAll(".temoignage-slide");
@@ -41,13 +48,11 @@ document.addEventListener("DOMContentLoaded", function () {
   dots.forEach((dot) => {
     dot.addEventListener("click", () => {
       const idx = parseInt(dot.getAttribute("data-index"), 10);
-      if (!Number.isNaN(idx)) {
-        updateCarousel(idx);
-      }
+      if (!Number.isNaN(idx)) updateCarousel(idx);
     });
   });
 
-  // Auto-rotation toutes les 10s (tu peux changer la durée)
+  // Auto-rotation toutes les 10s
   let autoTimer = setInterval(goNext, 10000);
 
   // Pause au survol
@@ -59,17 +64,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Init
   updateCarousel(0);
 });
+
 /* =============================
-   FIX TOGGLES (Voir plus / FAQ)
-   - Ouvre/ferme vraiment le contenu
-   - Gère aria-hidden + hidden + animation max-height
+   TOGGLES (Voir plus / FAQ)
+   - Smooth: no max-height / scrollHeight work
+   - Uses GPU-friendly CSS (opacity/transform)
 ============================= */
 (function () {
-  const qsa = (sel, root = document) => Array.from(root.querySelectorAll(sel));
-
   function setExpanded(btn, expanded) {
     btn.setAttribute("aria-expanded", expanded ? "true" : "false");
   }
@@ -77,7 +80,6 @@ document.addEventListener("DOMContentLoaded", function () {
   function showPanel(panel) {
     panel.setAttribute("aria-hidden", "false");
     panel.removeAttribute("hidden");
-    panel.classList.add("is-open");
   }
 
   function hidePanel(panel) {
@@ -86,33 +88,13 @@ document.addEventListener("DOMContentLoaded", function () {
     panel.classList.remove("is-open");
   }
 
-  function animate(panel, open) {
-    if (!panel) return;
-
-    panel.style.overflow = "hidden";
-
-    if (open) {
-      panel.style.maxHeight = "0px";
-      panel.offsetHeight; // reflow
-      panel.style.maxHeight = panel.scrollHeight + "px";
-      window.setTimeout(() => {
-        panel.style.maxHeight = "none";
-        panel.style.overflow = "";
-      }, 350);
-    } else {
-      if (getComputedStyle(panel).maxHeight === "none") {
-        panel.style.maxHeight = panel.scrollHeight + "px";
-        panel.offsetHeight;
-      }
-      panel.style.maxHeight = "0px";
-      window.setTimeout(() => {
-        panel.style.overflow = "";
-      }, 350);
-    }
+  const ANIM_MS = 260; // must match CSS transition duration
+  function hidePanelAfter(panel) {
+    window.setTimeout(() => hidePanel(panel), ANIM_MS);
   }
 
   // ---------------------------
-  // VOIR PLUS / VOIR MOINS (Confiance + Long-terme)
+  // VOIR PLUS / VOIR MOINS
   // ---------------------------
   document.addEventListener("click", (e) => {
     const btn = e.target.closest(".confiance-toggle-btn");
@@ -120,7 +102,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     e.preventDefault();
 
-    // On cherche le panneau dans la même "mega card"
     const scope =
       btn.closest(".mega-card, .confiance-bigcard, .longterm-bigcard, .process-bigcard") ||
       document;
@@ -143,16 +124,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (open) {
       showPanel(panel);
-      animate(panel, true);
+      requestAnimationFrame(() => panel.classList.add("is-open"));
     } else {
-      // animate close first, then truly hide
-      animate(panel, false);
-      window.setTimeout(() => hidePanel(panel), 350);
+      panel.classList.remove("is-open");
+      hidePanelAfter(panel);
     }
   });
 
-  // Init : ferme les panels "Voir +"
-  qsa(".confiance-toggle-btn").forEach((btn) => {
+  // Init : ferme les panels "Voir +" (si pas déjà explicitement ouverts)
+  $$(".confiance-toggle-btn").forEach((btn) => {
     const scope =
       btn.closest(".mega-card, .confiance-bigcard, .longterm-bigcard, .process-bigcard") ||
       document;
@@ -165,10 +145,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (expanded) {
       showPanel(panel);
-      panel.style.maxHeight = "none";
+      panel.classList.add("is-open");
     } else {
+      panel.classList.remove("is-open");
       hidePanel(panel);
-      panel.style.maxHeight = "0px";
     }
 
     btn.textContent = expanded ? "Voir moins" : "Voir plus";
@@ -202,22 +182,21 @@ document.addEventListener("DOMContentLoaded", function () {
         const i = it.querySelector('.faq-question-icon');
         if (b) setExpanded(b, false);
         if (a) {
-          // animate close then hide
-          animate(a, false);
-          window.setTimeout(() => hidePanel(a), 350);
-          a.style.maxHeight = '0px';
+          a.classList.remove("is-open");
+          hidePanelAfter(a);
         }
         if (i) i.textContent = '+';
       });
     }
 
     setExpanded(btn, open);
+
     if (open) {
       showPanel(answer);
-      animate(answer, true);
+      requestAnimationFrame(() => answer.classList.add("is-open"));
     } else {
-      animate(answer, false);
-      window.setTimeout(() => hidePanel(answer), 350);
+      answer.classList.remove("is-open");
+      hidePanelAfter(answer);
     }
 
     const icon = btn.querySelector(".faq-question-icon");
@@ -225,7 +204,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Init : FAQ fermée par défaut
-  qsa(".faq-item").forEach((item) => {
+  $$(".faq-item").forEach((item) => {
     const btn = item.querySelector(".faq-question-btn");
     const ans = item.querySelector(".faq-answer");
     if (!btn || !ans) return;
@@ -235,10 +214,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (expanded) {
       showPanel(ans);
-      ans.style.maxHeight = "none";
+      ans.classList.add("is-open");
     } else {
+      ans.classList.remove("is-open");
       hidePanel(ans);
-      ans.style.maxHeight = "0px";
     }
 
     const icon = btn.querySelector(".faq-question-icon");
@@ -247,41 +226,95 @@ document.addEventListener("DOMContentLoaded", function () {
 })();
 
 // =============================
-// Index-only: fond immersif (scroll vars) + modal audit
+// Index-only: nav mobile + (optionnel) fond immersif + modal audit
 // =============================
 (function () {
-  // Ne pas exécuter sur la page formulaire
   if (__isFormAudit) return;
 
+  // ---- Mobile burger nav ----
+  const burger = $(".burger");
+  const headerNav = $(".header-nav");
+
+  const openNav = () => {
+    if (!headerNav) return;
+    headerNav.classList.add("is-open");
+    burger?.setAttribute("aria-expanded", "true");
+  };
+
+  const closeNav = () => {
+    if (!headerNav) return;
+    headerNav.classList.remove("is-open");
+    burger?.setAttribute("aria-expanded", "false");
+  };
+
+  if (burger && headerNav) {
+    // a11y
+    burger.setAttribute("aria-expanded", "false");
+    burger.setAttribute("aria-controls", headerNav.id || "");
+
+    burger.addEventListener("click", (e) => {
+      e.preventDefault();
+      const isOpen = headerNav.classList.contains("is-open");
+      if (isOpen) closeNav();
+      else openNav();
+    });
+
+    // Close when clicking a nav link
+    headerNav.addEventListener("click", (e) => {
+      const link = e.target.closest("a");
+      if (link) closeNav();
+    });
+
+    // Close on outside click
+    document.addEventListener("click", (e) => {
+      if (e.target.closest(".main-header") || e.target.closest("header")) {
+        // click inside header, ignore
+        return;
+      }
+      closeNav();
+    });
+
+    // Close on Escape
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeNav();
+    });
+
+    // Close when switching to desktop
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 900) closeNav();
+    });
+  }
+
   // ---- Scroll vars (fond immersif) ----
-  let ticking = false;
-  const root = document.documentElement;
+  // On le laisse desktop-only (mobile: fond statique via CSS)
+  if (window.matchMedia("(min-width: 769px)").matches) {
+    let ticking = false;
+    const root = document.documentElement;
 
-  const updateScrollVars = () => {
-    const scroll = window.scrollY || window.pageYOffset || 0;
-    const offset = scroll * 0.12;
+    const updateScrollVars = () => {
+      const scroll = window.scrollY || window.pageYOffset || 0;
+      const offset = scroll * 0.12;
 
-    const max = 1500;
-    const ratio = Math.min(scroll / max, 1);
+      const max = 1500;
+      const ratio = Math.min(scroll / max, 1);
 
-    // On utilise root pour que les variables soient dispo partout
-    root.style.setProperty("--scroll-offset", `${offset}px`);
-    root.style.setProperty("--scroll-ratio", String(ratio));
+      root.style.setProperty("--scroll-offset", `${offset}px`);
+      root.style.setProperty("--scroll-ratio", String(ratio));
 
-    ticking = false;
-  };
+      ticking = false;
+    };
 
-  const onScroll = () => {
-    if (ticking) return;
-    ticking = true;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(updateScrollVars);
+    };
+
     window.requestAnimationFrame(updateScrollVars);
-  };
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
 
-  // Init + listener passive
-  window.requestAnimationFrame(updateScrollVars);
-  window.addEventListener("scroll", onScroll, { passive: true });
-
-  // ---- Modal audit (ouvre le formulaire en popup) ----
+  // ---- Modal audit ----
   const auditModal = document.getElementById("auditModal");
   if (!auditModal) return;
 
@@ -312,22 +345,10 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Clic sur l’overlay (si tu utilises un backdrop)
-    if (e.target === auditModal) {
-      closeAudit();
-    }
+    if (e.target === auditModal) closeAudit();
   });
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeAudit();
   });
 })();
-
-// =============================
-// Form-only logic placeholder
-// =============================
-// IMPORTANT: if you later add multi-step form JS, put it behind this guard
-// so it can never break index.html toggles.
-if (__isFormAudit) {
-  // form-specific code goes here
-}
