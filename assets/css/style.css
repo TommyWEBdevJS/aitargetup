@@ -2662,7 +2662,6 @@ body.is-success-open {
   }
 }
 @media (max-width: 640px) {
-
   .ticker {
     width: 100%;
     overflow: hidden;
@@ -2689,26 +2688,26 @@ body.is-success-open {
 
     /* effet lumineux subtil */
     text-shadow:
-      0 0 6px rgba(31,182,225,0.6),
-      0 0 14px rgba(31,182,225,0.4);
+      0 0 6px rgba(31, 182, 225, 0.6),
+      0 0 14px rgba(31, 182, 225, 0.4);
   }
-  }
+}
 
-  @keyframes tickerMove {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
+@keyframes tickerMove {
+  from {
+    transform: translateX(0);
   }
+  to {
+    transform: translateX(-50%);
+  }
+}
   /* ===============================
    NAV / BURGER — CLEANUP OVERRIDES
    (keeps desktop clean, mobile burger stable)
    =============================== */
 
 /* Base safety */
-.site-header { position: sticky; top: 0; z-index: 1000; }
+.site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; }
 .header-inner { width: 100%; }
 
 /* Ensure burger icon lines always render correctly */
@@ -2720,7 +2719,7 @@ body.is-success-open {
   right: 0;
   height: 2px;
   border-radius: 999px;
-  background: currentColor;
+  background: rgba(255, 255, 255, 0.95);
   opacity: 0.95;
 }
 .burger-lines span:nth-child(1) { top: 0; }
@@ -2779,7 +2778,16 @@ body.is-success-open {
   .burger { grid-column: 3; justify-self: end; }
 
   /* Hide desktop CTA on mobile */
-  .header-right { display: none !important; }
+  .header-cta,
+  .header-phone {
+    display: none !important;
+  }
+  
+  .header-right {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+  }
 
   /* Dropdown menu hidden by default */
   .header-nav {
