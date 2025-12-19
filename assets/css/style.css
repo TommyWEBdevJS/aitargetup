@@ -156,6 +156,55 @@ body {
   gap: 12px;
 }
 
+/* CTA header (desktop) */
+.header-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(135deg, rgba(14, 165, 233, 1), rgba(56, 189, 248, 1));
+  color: #0b1120;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow:
+    0 0 22px rgba(56, 189, 248, 0.55),
+    0 0 0 1px rgba(15, 23, 42, 0.95);
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+}
+
+.header-cta:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 28px rgba(56, 189, 248, 0.75),
+    0 0 0 1px rgba(15, 23, 42, 0.95);
+}
+
+.header-cta:active {
+  transform: translateY(0);
+}
+
+/* Optional: small helper text/phone in header */
+.header-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.86rem;
+  color: rgba(226, 232, 240, 0.92);
+  text-decoration: none;
+  opacity: 0.9;
+}
+
+.header-phone:hover {
+  opacity: 1;
+  color: #e5e7eb;
+}
+
 /* Burger (mobile) */
 .burger {
   display: none; /* desktop hidden */
@@ -173,81 +222,39 @@ body {
   gap: 0;
 }
 
-.burger .burger-lines {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+  .burger .burger-lines {
+    position: relative;
+    width: 22px;
+    height: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0;
+  }
 
-.burger span {
-  display: block;
-  width: 20px;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.88);
-  border-radius: 2px;
-  transform-origin: center;
-  transition: transform 160ms ease, opacity 160ms ease;
-}
+  .burger .burger-lines span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 2px;
+    transition: transform 0.28s ease, opacity 0.22s ease;
+  }
 
 /* Burger -> X when open */
-.burger.is-open span:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
-}
-.burger.is-open span:nth-child(2) {
-  opacity: 0;
-}
-.burger.is-open span:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
-}
-
-@media (max-width: 900px) {
-  /* Keep layout: logo left, burger right */
-  .header-inner {
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
+  .burger.is-open .burger-lines span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
   }
 
-  /* Hide desktop CTA/phone, keep container for burger */
-  .header-phone { display: none; }
-  .header-cta { display: none; }
-
-  .header-right {
-    display: flex;
-    justify-content: flex-end;
+  .burger.is-open .burger-lines span:nth-child(2) {
+    opacity: 0;
   }
 
-  .burger {
-    display: inline-flex;
-    justify-self: end;
+  .burger.is-open .burger-lines span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
   }
-}
 
-.header-phone {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.86rem;
-  color: #e5e7eb;
-  text-decoration: none;
-}
 
-.phone-icon {
-  font-size: 1rem;
-}
-
-.header-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 16px;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  background: linear-gradient(135deg, #f97316, #facc15);
-  color: #111827;
-  text-decoration: none;
-  box-shadow: 0 0 20px rgba(251, 191, 36, 0.7);
-}
 
 /* ===============================
    FOND CINÉMATIQUE (subtle luxe)
@@ -2275,37 +2282,38 @@ body.is-success-open {
 =============================== */
 
 @media (max-width: 960px) {
+  /* ===== Mobile header (single source of truth) ===== */
   .header-inner {
     grid-template-columns: auto 1fr auto;
     grid-template-rows: auto;
-    row-gap: 0;
-  }
-  /* Force-hide CTA/phone on mobile */
-.header-phone,
-.header-cta {
-  display: none !important;
-}
-
-/* Keep burger at far right */
-.header-right {
-  display: flex !important;
-  justify-content: flex-end !important;
-  align-items: center !important;
-  width: 100%;
-}
-
-.burger {
-  margin-left: auto;
-}
-
-.header-nav {
-    justify-content: center;
-    flex-wrap: wrap;
+    align-items: center;
   }
 
+  /* Cache CTA / téléphone sur mobile */
+  .header-phone,
+  .header-cta {
+    display: none !important;
+  }
 
+  /* Logo à gauche */
+  .header-left {
+    justify-self: start;
+  }
 
-  /* menu déroulant */
+  /* Burger à droite */
+  .header-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .burger {
+    display: inline-flex;
+    margin-left: 0;
+  }
+
+  /* Dropdown mobile (remplace la nav desktop) */
   .header-nav {
     position: absolute;
     top: 70px;
@@ -2316,11 +2324,12 @@ body.is-success-open {
     gap: 14px;
     padding: 18px;
     border-radius: 20px;
-    background: rgba(5,12,30,0.96);
-    border: 1px solid rgba(255,255,255,0.14);
-    box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+    background: rgba(5, 12, 30, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
     max-height: calc(100vh - 92px);
     overflow: auto;
+    justify-content: flex-start;
   }
 
   .header-nav.is-open {
@@ -2341,15 +2350,19 @@ body.is-success-open {
   }
 
   /* Reduce inner horizontal padding on main containers */
-  .mega-card { padding-left: 16px; padding-right: 16px; }
-  .hero-v2 { padding-left: 14px; padding-right: 14px; }
+  .mega-card {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .hero-v2 {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
 
   /* Make sections use full width on mobile */
-  .page { max-width: 100%; }
-
-  .burger {
-    display: inline-flex;
-    justify-self: end;
+  .page {
+    max-width: 100%;
   }
 }
 @media (max-width: 640px) {
@@ -2584,4 +2597,223 @@ body.is-success-open {
   .page-form-audit .form-actions { justify-content: stretch; }
   .page-form-audit .form-actions .btn-primary,
   .page-form-audit .form-actions .btn-secondary { width: 100%; justify-content: center; }
+}
+/* =========================================================
+   MOBILE APP MODE (sections homogènes + bord à bord)
+   À coller tout en bas du style.css
+========================================================= */
+@media (max-width: 640px) {
+
+  /* 1) Page = marge extérieure unique (comme une app) */
+  .page {
+    max-width: 100%;
+    padding: 86px 10px 22px; /* top = place header, côtés = “safe margin” */
+  }
+
+  /* 2) Sections = collées / rythme constant */
+  .section {
+    margin-top: 12px !important;
+  }
+
+  /* Les sections qui avaient du gros padding => on neutralise */
+  .section-temoignages,
+  .section-process,
+  .section-about,
+  .section-longterm {
+    padding: 0 !important;
+    margin-top: 12px !important;
+  }
+
+  /* 3) Tous les gros conteneurs = même largeur, même rayon, pas de margins parasites */
+  .hero-v2,
+  .mega-card,
+  .temoignages-viewport,
+  .section-faq .faq-item {
+    width: 100% !important;
+    margin: 0 !important;
+    border-radius: 18px !important;
+  }
+
+  /* Si certains blocs internes rajoutent du padding latéral */
+  .temoignages-inner,
+  .process-inner,
+  .about-inner,
+  .longterm-inner {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* 4) Grilles => full width */
+  .offers-grid,
+  .process-steps,
+  .about-grid,
+  .longterm-grid {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  /* 5) Cartes internes => bord à bord propre */
+  .offer-card,
+  .process-step,
+  .about-card,
+  .longterm-card {
+    border-radius: 18px !important;
+  }
+}
+@media (max-width: 640px) {
+
+  .ticker {
+    width: 100%;
+    overflow: hidden;
+    height: 28px;
+    margin-top: 6px;
+  }
+
+  .ticker-track {
+    display: flex;
+    width: max-content;
+    animation: tickerMove 10s linear infinite;
+  }
+
+  .ticker-track span {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin-right: 40px;
+
+    /* 🔵 Bleu AiTargetUp */
+    color: #1FB6E1;
+
+    /* effet lumineux subtil */
+    text-shadow:
+      0 0 6px rgba(31,182,225,0.6),
+      0 0 14px rgba(31,182,225,0.4);
+  }
+  }
+
+  @keyframes tickerMove {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  /* ===============================
+   NAV / BURGER — CLEANUP OVERRIDES
+   (keeps desktop clean, mobile burger stable)
+   =============================== */
+
+/* Base safety */
+.site-header { position: sticky; top: 0; z-index: 1000; }
+.header-inner { width: 100%; }
+
+/* Ensure burger icon lines always render correctly */
+.burger { -webkit-tap-highlight-color: transparent; }
+.burger-lines { position: relative; display: block; width: 28px; height: 18px; }
+.burger-lines span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.95;
+}
+.burger-lines span:nth-child(1) { top: 0; }
+.burger-lines span:nth-child(2) { top: 8px; }
+.burger-lines span:nth-child(3) { top: 16px; }
+
+/* Desktop: never allow mobile dropdown rules to apply */
+@media (min-width: 961px) {
+  .burger { display: none !important; }
+  .ticker { display: none !important; }
+  .header-right { display: flex !important; }
+
+  /* Force desktop nav back to normal layout */
+  .header-nav {
+    display: flex !important;
+    position: static !important;
+    inset: auto !important;
+    transform: none !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    width: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .header-nav a,
+  .header-nav .nav-item-with-caret {
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+
+  /* If any “open” class exists, ignore it on desktop */
+  .site-header.is-open .header-nav,
+  .site-header.nav-open .header-nav,
+  body.nav-open .header-nav {
+    display: flex !important;
+  }
+}
+
+/* Mobile: burger + ticker layout + dropdown menu */
+@media (max-width: 960px) {
+  /* 3-column header: logo | ticker | burger */
+  .header-inner {
+    display: grid !important;
+    grid-template-columns: auto 1fr auto !important;
+    align-items: center !important;
+    gap: 12px !important;
+  }
+
+  .header-left { grid-column: 1; }
+  .ticker { grid-column: 2; justify-self: center; }
+  .burger { grid-column: 3; justify-self: end; }
+
+  /* Hide desktop CTA on mobile */
+  .header-right { display: none !important; }
+
+  /* Dropdown menu hidden by default */
+  .header-nav {
+    display: none;
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    top: calc(100% + 10px);
+    z-index: 1001;
+    padding: 14px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(10, 14, 20, 0.86);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+  }
+
+  .header-nav a {
+    display: block;
+    padding: 12px 10px;
+    border-radius: 12px;
+  }
+
+  .header-nav a:active {
+    transform: translateY(1px);
+  }
+
+  /* Open state */
+  .site-header.is-open .header-nav {
+    display: block;
+  }
+
+  /* Make sure caret wrapper doesn’t break layout */
+  .nav-item-with-caret { display: block; }
+  .nav-caret { display: none; }
 }
